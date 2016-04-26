@@ -14,10 +14,12 @@ describe("String Class Extension Test Suite", function() {
 			expect(typeof string.fromCurrency).toEqual('function');
 		});
 	});
-	// // hasVowels method test
+	// hasVowels method test
 	describe("hasVowels method test", function() {
 		it("should check for vowels in a string", function() {
 			var string = "string";
+			expect(string.hasVowels()).toBe(true);
+			string = 'STRONG';
 			expect(string.hasVowels()).toBe(true);
 			string = 'rhythm';
 			expect(string.hasVowels()).toBe(false);
@@ -39,11 +41,15 @@ describe("String Class Extension Test Suite", function() {
 	});
 	// ucFirst method test
 	describe("ucFirst method test", function() {
+		it("should use toUpper method to convert to uppercase", function() {
+			var string = "string";
+			spyOn(String.prototype, "toUpper");
+			string.ucFirst();
+			expect(String.prototype.toUpper).toHaveBeenCalled();
+		});
+
 		it("should convert first character to upper case", function() {
 			var string = "string";
-			spyOn(string, "toUpper");
-			string.ucFirst();
-			expect(string.toUpper).toHaveBeenCalled();
 			expect(string.ucFirst()).toEqual("String");
 		});
 	});
@@ -53,6 +59,8 @@ describe("String Class Extension Test Suite", function() {
 			var string = "string?";
 			expect(string.isQuestion()).toBe(true);
 			string = "string";
+			expect(string.isQuestion()).toBe(false);
+			string = "string?string"
 			expect(string.isQuestion()).toBe(false);
 		});
 	});
