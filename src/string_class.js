@@ -1,5 +1,9 @@
 String.prototype.hasVowels = function() {
-
+	var pattern = /[aeiouAEIOU]/;
+	if (this.search(pattern) != -1) {
+		return true;
+	}
+	return false;
 };
 
 String.prototype.toUpper = function() {
