@@ -41,16 +41,14 @@ describe("String Class Extension Test Suite", function() {
 	});
 	// ucFirst method test
 	describe("ucFirst method test", function() {
-		it("should use toUpper method to convert to uppercase", function() {
-			var string = "string";
-			spyOn(String.prototype, "toUpper");
-			string.ucFirst();
-			expect(String.prototype.toUpper).toHaveBeenCalled();
-		});
+		beforeEach(function() {
+			spyOn(String.prototype, "toUpper").and.callThrough();
+		})
 
 		it("should convert first character to upper case", function() {
 			var string = "string";
 			expect(string.ucFirst()).toEqual("String");
+			expect(String.prototype.toUpper).toHaveBeenCalled();
 		});
 	});
 	// isQuestion method test
@@ -62,6 +60,8 @@ describe("String Class Extension Test Suite", function() {
 			expect(string.isQuestion()).toBe(false);
 			string = "string?string"
 			expect(string.isQuestion()).toBe(false);
+			string = "string ?"
+			expect(string.isQuestion()).toBe(true);
 		});
 	});
 	// words method test
@@ -76,12 +76,14 @@ describe("String Class Extension Test Suite", function() {
 	});
 	// wordCount method test
 	describe("wordCount method test", function() {
+		beforeEach(function() {
+			spyOn(String.prototype, "words").and.callThrough();
+		});
+
 		it("should return the number of words in the string", function() {
 			var string = "This is a simple string";
-			spyOn(string, "words");
-			string.wordCount();
-			expect(string.words).toHaveBeenCalled();
 			expect(string.wordCount()).toEqual(5);
+			expect(String.prototype.words).toHaveBeenCalled();
 		});
 	});
 	// toCurrency method test
@@ -93,18 +95,22 @@ describe("String Class Extension Test Suite", function() {
 			expect(string.toCurrency()).toEqual("1,112.2");
 			string = "1000";
 			expect(string.toCurrency()).toEqual("1,000");
+			string = "10.10";
+			expect(string.toCurrency()).toEqual("10.10");
 		});
 	});
 	// fromCurrency method test
 	describe("fromCurrency method test", function() {
 		it("should return the number representation of the string", function() {
 			var string = "122,392.12";
-			expect(typeof string.toCurrency()).toEqual('number');
-			expect(string.toCurrency()).toEqual(122392.12);
+			expect(typeof string.fromCurrency()).toEqual('number');
+			expect(string.fromCurrency()).toEqual(122392.12);
 			string = "1,112.2";
-			expect(string.toCurrency()).toEqual(1112.2);
+			expect(string.fromCurrency()).toEqual(1112.2);
 			string = "1,000";
-			expect(string.toCurrency()).toEqual(1000);
+			expect(string.fromCurrency()).toEqual(1000);
+			string = "1, 000, 000.00";
+			expect(string.fromCurrency()).toEqual(1000000);
 		});
 	});
 

@@ -23,22 +23,26 @@ String.prototype.ucFirst = function() {
 };
 
 String.prototype.isQuestion = function() {
-
+	var pattern = /\w+\s*\?$/;
+	return pattern.test(this);
 };
 
 String.prototype.words = function() {
-
+	var pattern = /\w+/g;
+	return this.match(pattern);
 };
 
 String.prototype.wordCount = function() {
-
+	return this.words().length;
 };
 
 String.prototype.toCurrency = function() {
-
+	var pattern = /^\d{4,}/;
+	return pattern.test(this) ? parseFloat(this).toLocaleString() : this;
 };
 
 String.prototype.fromCurrency = function() {
-
+	var pattern = /,\s*/g;
+	return parseFloat(this.replace(pattern, ""));
 };
 
